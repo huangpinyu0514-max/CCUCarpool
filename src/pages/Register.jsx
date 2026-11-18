@@ -23,7 +23,7 @@ export default function Register() {
     e.preventDefault();
 
     const newErrors = {};
-    if (!form.email.endsWith("ccu.edu.tw")) newErrors.email = "請使用學校 Email";
+    if (!form.email.endsWith("alum.ccu.edu.tw")) newErrors.email = "請使用學校 Email";
     if (!form.name) newErrors.name = "請輸入使用者名稱";
     if (form.password.length < 8) newErrors.password = "密碼至少 8 個字元";
     if (form.password !== form.confirm) newErrors.confirm = "兩次密碼不一致";
@@ -33,31 +33,31 @@ export default function Register() {
       return;
     }
 
-    setErrors({});
-    setLoading(true);
-    try {
-      // 回傳 true = Email 已註冊；false = 可註冊，且驗證碼已寄出
-      const exist = await sendVerificationEmail(form.email);
-      if (exist) {
-        setErrors({ email: "此 Email 已被註冊" });
-        return;
-      }
-      navigate("/verify", {
-        state: {
-          user: {
-            email: form.email,
-            name: form.name,
-            student_id: form.student_id,
-            department: form.department,
-            password: form.password,
-          },
-        },
-      });
-    } catch {
-      setErrors({ email: "無法連線到伺服器，請稍後再試" });
-    } finally {
-      setLoading(false);
-    }
+    // setErrors({});
+    // setLoading(true);
+    // try {
+    //   // 回傳 true = Email 已註冊；false = 可註冊，且驗證碼已寄出
+    //   const exist = await sendVerificationEmail(form.email);
+    //   if (exist) {
+    //     setErrors({ email: "此 Email 已被註冊" });
+    //     return;
+    //   }
+    //   navigate("/verify", {
+    //     state: {
+    //       user: {
+    //         email: form.email,
+    //         name: form.name,
+    //         student_id: form.student_id,
+    //         department: form.department,
+    //         password: form.password,
+    //       },
+    //     },
+    //   });
+    // } catch {
+    //   setErrors({ email: "無法連線到伺服器，請稍後再試" });
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
