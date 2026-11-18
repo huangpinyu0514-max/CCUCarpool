@@ -1,0 +1,24 @@
+.home { max-width: 900px; margin: 0 auto; padding: 16px; }
+.home-header { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+.search-bar { flex: 1; padding: 10px 16px; border: 2px solid #333; border-radius: 999px; font-size: 16px; }
+.ride-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.ride-card { border: 2px solid #333; border-radius: 16px; padding: 16px; }
+.ride-poster { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #333;
+          display: inline-flex; align-items: center; justify-content: center; }
+.ride-route { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
+.ride-meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 14px; color: #666; }
+.fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: 2px solid #333;
+  background: #fff;
+  color: #111;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+@media (max-width: 600px) { .ride-grid { grid-template-columns: 1fr; } }
