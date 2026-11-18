@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#password 
+.src/backend/text.py
+.src/backend/database/*
