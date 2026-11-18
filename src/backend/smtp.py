@@ -1,6 +1,6 @@
 import smtplib
 from email.message import EmailMessage
-from text import password
+from src.backend.text import password
 import random
 
 msg = EmailMessage()
@@ -20,3 +20,4 @@ def send_vertification_code(email: str):
         server.send_message(msg)
         return code
 
+send_vertification_code("paulpb0725@gmail.com")

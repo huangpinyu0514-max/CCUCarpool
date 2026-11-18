@@ -60,3 +60,8 @@ class CodeVertification(BaseModel):
 class LoginFormat(BaseModel):
     email: str
     password: str
+
+class CarpoolFilter(BaseModel):
+    origin: str = Field(max_length=100)
+    destination: str = Field(max_length=100)
+    departure_time: datetime

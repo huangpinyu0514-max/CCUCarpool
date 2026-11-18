@@ -1,9 +1,9 @@
 import sqlite3
 from pathlib import Path
-from model import User, LoginFormat
-import utility
+from src.backend.model import User, LoginFormat
+from . import utility
 
-DB_PATH = Path("./database/app.db")
+DB_PATH = Path(__file__).resolve().parent / "database" / "app.db"
 
 def init_user():
     conn = sqlite3.connect(DB_PATH)
@@ -25,20 +25,20 @@ def init_carpool():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
-        CREATE TABLE carpool (
-            id              SERIAL PRIMARY KEY,
-            poster_id       INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-            origin          VARCHAR(100) NOT NULL,
-            destination     VARCHAR(100) NOT NULL,
+        CREATE TABLE IF NOT EXISTS carpool (
+            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+            poster_id       INTEGER NOT NULL REFERENCES user(id) ON DELETE CASCADE,
+            origin          TEXT NOT NULL,
+            destination     TEXT NOT NULL,
             departure_time  TIMESTAMP NOT NULL,
-            seats_total     SMALLINT NOT NULL CHECK (seats_total > 0),
-            seats_left      SMALLINT NOT NULL CHECK (seats_left >= 0),
+            seats_total     INTEGER NOT NULL CHECK (seats_total > 0),
+            seats_left      INTEGER NOT NULL CHECK (seats_left >= 0),
             cost            INTEGER DEFAULT 0,
             note            TEXT,
-            status          VARCHAR(10) NOT NULL DEFAULT 'open'
+            status          TEXT NOT NULL DEFAULT 'open'
                             CHECK (status IN ('open', 'full', 'closed', 'cancelled')),
-            created_at      TIMESTAMP NOT NULL DEFAULT NOW(),
-            updated_at      TIMESTAMP NOT NULL DEFAULT NOW(),
+            created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             CHECK (seats_left <= seats_total)
         );
     """)
@@ -69,7 +69,7 @@ def create_user(user: User):
             (user.email, user.password_hash, user.name, user.student_id, user.department),
         )
         conn.commit()
-        user.id = cursor.lastrowid   # 取得資料庫產生的 id 並寫回物件
+        user.id = cursor.lastrowid
         return user
     finally:
         conn.close()
@@ -88,3 +88,6 @@ def check_password(query: LoginFormat):
         return stored_hash == utility.generate_hash(query.password)
     finally:
         conn.close()
+
+init_user()
+init_carpool()

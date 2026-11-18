@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from model import EmailVertification, CodeVertification, LoginFormat
-from crud import *
-import smtp
+from src.backend.model import EmailVertification, CodeVertification, LoginFormat, CarpoolFilter
+from src.backend.crud import *
+from . import smtp
 
 app = FastAPI()
 EMAILVERTIFICATION_CODE = None
@@ -30,3 +30,11 @@ def login(req: LoginFormat):
     if check_password(req):
         return {"login": True}
     return {"login": False}
+
+@app.post("/carpool")
+def carpool_filter(req:CarpoolFilter):
+    ...
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host= "0.0.0.0", port= 8000)
