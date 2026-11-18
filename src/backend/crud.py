@@ -88,6 +88,7 @@ def check_password(query: LoginFormat):
         return stored_hash == utility.generate_hash(query.password)
     finally:
         conn.close()
+        
 
 init_user()
 init_carpool()
