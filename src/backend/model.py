@@ -56,3 +56,7 @@ class EmailVertification(BaseModel):
 class CodeVertification(BaseModel):
     code: str
     user: User
+
+class LoginFormat(BaseModel):
+    email: str
+    password: str

@@ -20,4 +20,3 @@ def send_vertification_code(email: str):
         server.send_message(msg)
         return code
 
-send_vertification_code("paulpb0725@gmail.com")

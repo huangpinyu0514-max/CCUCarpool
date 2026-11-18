@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from model import EmailVertification, CodeVertification, User
+from model import EmailVertification, CodeVertification, LoginFormat
 from crud import *
 import smtp
 
@@ -24,3 +24,9 @@ def vertify_code(req: CodeVertification):
         return {"status": True}
     else:
         return {"status": False}
+
+@app.post("/login")
+def login(req: LoginFormat):
+    if check_password(req):
+        return {"login": True}
+    return {"login": False}

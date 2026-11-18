@@ -1,6 +1,7 @@
 import sqlite3
 from pathlib import Path
-from model import User
+from model import User, LoginFormat
+import utility
 
 DB_PATH = Path("./database/app.db")
 
@@ -59,6 +60,7 @@ def email_exist(email: str):
 def create_user(user: User):
     conn = sqlite3.connect(DB_PATH)
     try:
+        user.password_hash = utility.generate_hash(user.password_hash)
         cursor = conn.execute(
             """
             INSERT INTO user (email, password_hash, name, student_id, department)
@@ -72,3 +74,17 @@ def create_user(user: User):
     finally:
         conn.close()
 
+def check_password(query: LoginFormat):
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        cursor = conn.execute(
+            "SELECT password_hash FROM user WHERE email = ?",
+            (query.email,)
+        )
+        row = cursor.fetchone()
+        if row is None:
+            return False
+        stored_hash = row[0]
+        return stored_hash == utility.generate_hash(query.password)
+    finally:
+        conn.close()
